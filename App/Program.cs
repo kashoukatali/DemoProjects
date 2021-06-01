@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace NetCore.Docker
 {
@@ -6,14 +9,13 @@ namespace NetCore.Docker
     {
         static void Main(string[] args)
         {
-            if(args.Length >= 1)
-            {
-                Console.WriteLine("Hello " + args[0] + " World!");
-            }
-            else
-            {
-                Console.WriteLine("Hello World!");
-            }
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("config.json").Build();                
+            
+            // retrieve configuration values
+            Console.WriteLine(configuration["Environment"]); // bar
+            Console.WriteLine(configuration["Email"]); // qux
+            Console.WriteLine(configuration["ConnectionString"]); // qux
         }
     }
 }
