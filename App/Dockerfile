@@ -19,5 +19,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
 
+EXPOSE 5005
+
 # Run the web service on container startup.
 ENTRYPOINT ["dotnet", "NetCore.Docker.dll"]

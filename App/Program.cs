@@ -3,6 +3,10 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace NetCore.Docker
 {
@@ -10,15 +14,27 @@ namespace NetCore.Docker
     {
         static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("config.json")
-                .AddEnvironmentVariables()
-                .Build();                
-            
-            // retrieve configuration values
-            Console.WriteLine(configuration["Environment"]); // bar
-            Console.WriteLine(configuration["Email"]); // qux
-            Console.WriteLine(configuration["ConnectionString"]); // qux
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+  Host.CreateDefaultBuilder(args)
+      .ConfigureWebHost(
+          webHost => webHost
+              .UseKestrel(kestrelOptions => { kestrelOptions.ListenAnyIP(5005); })
+              .Configure(app => app
+                  .Run(
+                      async context =>
+                      {
+                         var configuration = new ConfigurationBuilder()
+                            .AddJsonFile("config.json")
+                            .AddEnvironmentVariables()
+                            .Build();
+
+                         await context.Response.WriteAsync(configuration["Environment"]);
+                         await context.Response.WriteAsync(configuration["Email"]);
+                         await context.Response.WriteAsync(configuration["ConnectionString"]);
+                      }
+                  )));
     }
 }
