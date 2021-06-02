@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
 
 namespace NetCore.Docker
@@ -10,7 +11,9 @@ namespace NetCore.Docker
         static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("config.json").Build();                
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables()
+                .Build();                
             
             // retrieve configuration values
             Console.WriteLine(configuration["Environment"]); // bar
