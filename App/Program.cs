@@ -21,7 +21,7 @@ namespace NetCore.Docker
   Host.CreateDefaultBuilder(args)
       .ConfigureWebHost(
           webHost => webHost
-              .UseKestrel(kestrelOptions => { kestrelOptions.ListenAnyIP(5005); })
+              .UseKestrel(kestrelOptions => { kestrelOptions.ListenAnyIP(8080); })
               .Configure(app => app
                   .Run(
                       async context =>
@@ -31,9 +31,9 @@ namespace NetCore.Docker
                             .AddEnvironmentVariables()
                             .Build();
 
-                         await context.Response.WriteAsync(configuration["Environment"]);
-                         await context.Response.WriteAsync(configuration["Email"]);
-                         await context.Response.WriteAsync(configuration["ConnectionString"]);
+                         await context.Response.WriteAsync("<p style=\"color: red;font-size:30px\">Environment      : " + configuration["Environment"] + "</p><br/>");
+                         await context.Response.WriteAsync("<p style=\"color: blue;font-size:30px\">Email            : " + configuration["Email"] + "</p><br/>");
+                         await context.Response.WriteAsync("<p style=\"color: green;font-size:30px\">ConnectionString : " + configuration["ConnectionString"] + "</p><br/>");
                       }
                   )));
     }
