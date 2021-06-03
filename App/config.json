@@ -1,5 +1,5 @@
 {
-  "Environment": "Dev",
+  "Environment": "Dev1",
   "Email": "dev@example.com",
   "ConnectionString": "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;"
 }
