@@ -28,6 +28,7 @@ namespace NetCore.Docker
                       {
                          var configuration = new ConfigurationBuilder()
                             .AddJsonFile("/config/config.json")
+                            .AddJsonFile("config.json")
                             .AddEnvironmentVariables()
                             .Build();
 
